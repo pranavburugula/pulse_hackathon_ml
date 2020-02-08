@@ -49,10 +49,23 @@ print(y_test.shape)
 print('Done reshaping data')
 model = Sequential()
 model.add(LSTM(4, return_sequences=True, input_shape=(2,4)))
+model.add(LSTM(4, return_sequences=False))
+model.add(Dense(3, activation='sigmoid'))
 
 model.compile(loss='mean_absolute_percentage_error', optimizer='rmsprop', metrics=['accuracy'])
 print('Training')
 model.fit(X_train, y_train, batch_size=32, epochs=100, validation_split=0.3, shuffle=False)
+
+outFilepath = 'Model.json'
+# serialize model to JSON
+model_json = model.model.to_json()
+with open(outFilepath, "w") as json_file:
+    json_file.write(model_json)
+# serialize weights to HDF5
+outFilepath = "Model.h5"
+model.save_weights(outFilepath)
+print("Saved model to disk")
+
 print('Done training')
 print(model.summary())
 metrics = model.evaluate(X_test, y_test)
