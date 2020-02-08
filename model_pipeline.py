@@ -47,25 +47,36 @@ print(y_train.shape)
 print(X_test.shape)
 print(y_test.shape)
 print('Done reshaping data')
-model = Sequential()
-model.add(LSTM(4, return_sequences=True, input_shape=(2,4)))
-model.add(TimeDistributed(Dense(4, activation='sigmoid'), input_shape=(2, 4)))
 
-model.compile(loss='mean_absolute_percentage_error', optimizer='rmsprop', metrics=['accuracy'])
-print('Training')
-model.fit(X_train, y_train, batch_size=32, epochs=10, validation_split=0.3, shuffle=False)
+training = False
+if(training):
+    model = Sequential()
+    model.add(LSTM(4, return_sequences=True, input_shape=(2,4)))
+    model.add(TimeDistributed(Dense(4, activation='sigmoid'), input_shape=(2, 4)))
 
-outFilepath = 'Model.json'
-# serialize model to JSON
-model_json = model.model.to_json()
-with open(outFilepath, "w") as json_file:
-    json_file.write(model_json)
-# serialize weights to HDF5
-outFilepath = "Model.h5"
-model.save_weights(outFilepath)
-print("Saved model to disk")
+    model.compile(loss='mean_absolute_percentage_error', optimizer='rmsprop', metrics=['accuracy'])
+    print('Training')
+    model.fit(X_train, y_train, batch_size=32, epochs=10, validation_split=0.3, shuffle=False)
 
-print('Done training')
-print(model.summary())
-metrics = model.evaluate(X_test, y_test)
+    outFilepath = 'Model.json'
+    # serialize model to JSON
+    model_json = model.model.to_json()
+    with open(outFilepath, "w") as json_file:
+        json_file.write(model_json)
+    # serialize weights to HDF5
+    outFilepath = "Model.h5"
+    model.save_weights(outFilepath)
+    print("Saved model to disk")
+
+    print('Done training')
+    print(model.summary())
+
+json_file = open('Model.json', 'r')
+loaded_model_json = json_file.read()
+json_file.close()
+loaded_model = model_from_json(loaded_model_json)
+# load weights into new model
+loaded_model.load_weights('Model.h5')
+loaded_model.compile(loss='mean_absolute_percentage_error', optimizer='rmsprop', metrics=['accuracy'])
+metrics = loaded_model.evaluate(X_test, y_test)
 print(metrics[0])
