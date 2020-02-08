@@ -53,7 +53,7 @@ model.add(TimeDistributed(Dense(4, activation='sigmoid'), input_shape=(2, 4)))
 
 model.compile(loss='mean_absolute_percentage_error', optimizer='rmsprop', metrics=['accuracy'])
 print('Training')
-model.fit(X_train, y_train, batch_size=32, epochs=100, validation_split=0.3, shuffle=False)
+model.fit(X_train, y_train, batch_size=32, epochs=10, validation_split=0.3, shuffle=False)
 
 outFilepath = 'Model.json'
 # serialize model to JSON
