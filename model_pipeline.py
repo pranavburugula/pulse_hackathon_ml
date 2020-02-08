@@ -1,7 +1,7 @@
 import numpy as np
 import keras
 from keras.layers import Input, Dense, LSTM, TimeDistributed
-from keras.models import Sequential, Model
+from keras.models import Sequential, Model, model_from_json
 import csv
 
 print('Loading data')
