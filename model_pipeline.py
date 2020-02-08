@@ -1,6 +1,6 @@
 import numpy as np
 import keras
-from keras.layers import Input, Dense, LSTM
+from keras.layers import Input, Dense, LSTM, TimeDistributed
 from keras.models import Sequential, Model
 import csv
 
@@ -49,8 +49,7 @@ print(y_test.shape)
 print('Done reshaping data')
 model = Sequential()
 model.add(LSTM(4, return_sequences=True, input_shape=(2,4)))
-model.add(LSTM(4, return_sequences=False))
-model.add(Dense(3, activation='sigmoid'))
+model.add(TimeDistributed(Dense(3, activation='sigmoid'), input_shape=(2, 4)))
 
 model.compile(loss='mean_absolute_percentage_error', optimizer='rmsprop', metrics=['accuracy'])
 print('Training')
