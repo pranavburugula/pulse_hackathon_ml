@@ -5,7 +5,7 @@ from keras.models import Sequential, Model, model_from_json
 import csv
 
 print('Loading data')
-with open('train2.csv';, 'r') as f:
+with open('train2.csv', 'r') as f:
     reader = csv.reader(f)
     data_list = []
     for row in reader:
