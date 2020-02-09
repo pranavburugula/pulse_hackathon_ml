@@ -48,7 +48,7 @@ print(X_test.shape)
 print(y_test.shape)
 print('Done reshaping data')
 
-training = False
+training = True
 if(training):
     model = Sequential()
     model.add(LSTM(2, return_sequences=True, input_shape=(2,2)))
